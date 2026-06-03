@@ -43,12 +43,13 @@ class Recipe:
         except:
             return False
         
-    def scale(self,ratio: float):
-        kopi_allingredient =[]
+    def scale(self, ratio: float):
+        if ratio <= 0:
+            raise ValueError("Коэффициент масштабирования должен быть положительным")
+        kopi_allingredient = []
         for i in self.allingredient:
-            kopi =Ingredient(i.name, i.quantity * ratio, i.unit)
+            kopi = Ingredient(i.name, i.quantity * ratio, i.unit)
             kopi_allingredient.append(kopi)
-            
         return Recipe(self.title, kopi_allingredient)
     
     def __len__(self):
@@ -59,7 +60,7 @@ class Recipe:
 
 
 class ShoppingList:
-    def __init__(self,items: list):
+    def __init__(self, items=None):
         self._items = []
     
     def add_recipe(self,recipe, portions: float):
