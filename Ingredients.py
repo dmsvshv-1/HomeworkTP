@@ -46,7 +46,7 @@ class Recipe:
     def scale(self,ratio: float):
         kopi_allingredient =[]
         for i in self.allingredient:
-            kopi = i.quantity * ratio
+            kopi =Ingredient(i.name, i.quantity * ratio, i.unit)
             kopi_allingredient.append(kopi)
             
         return Recipe(self.title, kopi_allingredient)
@@ -93,6 +93,22 @@ class ShoppingList:
         all_the_big_name_in_europe = ShoppingList()
         all_the_big_name_in_europe._items = self._items + other._items
         return all_the_big_name_in_europe
+    
+    
+class DietaryRecipe(Recipe):
+    def __init__(self,title,diet_type: str,allingredient=None ):
+        if allingredient is None:
+            allingredient = []
+        super().__init__(title, allingredient)
+        self.diet_type = diet_type
+        
+    def scale(self,ratio: float):
+        scaled_recipe = super().scale(ratio)
+        return DietaryRecipe(scaled_recipe.title, self.diet_type, scaled_recipe.allingredient)
+    
+    def __str__(self):
+        return f"[{self.diet_type}] {super().__str__()}"
+    
     
     
         
